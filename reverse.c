@@ -12,7 +12,7 @@ struct node {
 int main(int argc, char *argv[])
 {
 	if((argc != 2) && (argc != 3)) {
-		fprintf(stderr, "usage: reverse <input> <output> \n");
+		fprintf(stderr, "usage: reverse <input> <output>\n");
 		return 1;
 	}
 
@@ -23,23 +23,24 @@ int main(int argc, char *argv[])
 	size_t len = 0;
 	struct node *head = NULL;
 
+	
 	stream = fopen(argv[1], "r");
-	if (errno == ENOMEM) {
-		fprintf(stderr, "error: cannot open file '%s' \n", argv[1]);
+	if (errno == EACCES) {
+		fprintf(stderr, "error: cannot open file '%s'\n", argv[1]);
 		return 1;
 	}
 
 	if (argc == 3) {
 		output = fopen(argv[2], "w");
 		if (errno == ENOMEM) {
-			fprintf(stderr, "error: cannot open file '%s' \n", argv[2]);
+			fprintf(stderr, "error: cannot open file '%s'\n", argv[2]);
 			return 1;
 		}
 
 		int str_len = strlen(argv[1]);
 
 		if (strncmp(argv[1], argv[2], str_len) == 0) {
-			fprintf(stderr, "error: input and output must differ \n");
+			fprintf(stderr, "error: input and output must differ\n");
 			return 1;
 		}
 	}
@@ -48,7 +49,7 @@ int main(int argc, char *argv[])
 	while (getline(&line, &len, stream) != -1) {
 		char* new_line = malloc(sizeof(char) * (len+1));
 		if (errno == ENOMEM) {
-			fprintf(stderr, "error: malloc failed \n");
+			fprintf(stderr, "error: malloc failed\n");
 			free (new_line);
 			return 1;
 		}
@@ -56,7 +57,7 @@ int main(int argc, char *argv[])
 
 		struct node *new_node = (struct node*)malloc(sizeof(struct node));
 		if (errno == ENOMEM) {
-			fprintf(stderr, "error: malloc failed \n");
+			fprintf(stderr, "error: malloc failed\n");
 			free (new_node);
 			return 1;
 		}
